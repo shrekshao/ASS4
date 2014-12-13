@@ -5,7 +5,9 @@
 
 using namespace std;
 
-#define SEGMENT_EPSILON (0.1)
+#define SEGMENT_EPSILON (0.01)
+#define SEGMENT_MOVE_EPSILON (0.01)
+
 
 class Segment
 {
@@ -20,7 +22,9 @@ protected:
 	//position
 
 	//root joint for this segment, parent segment coordinate
-	Eigen::Vector3f v3_base;
+	Eigen::Vector3f v3_base;	//12-11 seems to be useless?
+								// the base point should always be at
+								// the origin of the current coordinate
 
 	//end point pos, local coordinate
 	Eigen::Vector3f v3_end;	//?
@@ -38,10 +42,12 @@ protected:
 
 
 public:
+	Segment(float seg_length);
 	Segment(const Eigen::Vector3f & basepos, float seg_length);
 	~Segment();
 
-	virtual Eigen::Affine3f getTransformMatrix() = 0;
+
+	virtual Eigen::Matrix3f getRotationMatrix() = 0;
 	virtual Eigen::Vector3f getChildrenJointPosition()const = 0;
 	virtual int getDOF()const = 0;
 
@@ -68,4 +74,11 @@ public:
 
 	void addChildrenSegment(Segment* seg);
 	void setBasePosition(const Eigen::Vector3f v);
+
+
+	//intuitive
+	//void draw(Eigen::Matrix3f & R, Eigen::Vector3f & v3_origin_in_world);
+
+	//use opengl transformation
+	virtual void draw() = 0;
 };
