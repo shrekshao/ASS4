@@ -5,7 +5,7 @@
 
 #define BALLJOINT_DOF (3)
 
-#define BALLJOINT_ROTATE_EPSILON (0.05)
+#define BALLJOINT_ROTATE_EPSILON (0.2)
 
 
 class SegmentBallJoint
@@ -13,10 +13,11 @@ class SegmentBallJoint
 {
 protected:
 	//rotation, radian
-	float thetax;
-	float thetay;
-	float thetaz;
+	//float thetax;
+	//float thetay;
+	//float thetaz;
 
+	Eigen::Matrix3f Rotation;
 
 public:
 	SegmentBallJoint(float seg_length);
@@ -28,7 +29,8 @@ public:
 
 	virtual void update(const Eigen::MatrixXf & dtheta, int & cid, const Eigen::Vector3f & v3_parent_end); 
 
-	virtual void getJ(const Eigen::Vector3f & p, Eigen::Matrix3f & R, Eigen::MatrixXf & J,int & cid);
+	virtual void getJ(Eigen::Vector3f & p,Eigen::Matrix3f R, Eigen::MatrixXf & J,int cid);
+	virtual void rootGetJ(Eigen::MatrixXf & J);
 
 	virtual void getEndEffector(Eigen::Vector3f & p, Eigen::Matrix3f & R);
 

@@ -5,8 +5,8 @@
 
 using namespace std;
 
-#define SEGMENT_EPSILON (0.01)
-#define SEGMENT_MOVE_EPSILON (0.01)
+#define SEGMENT_EPSILON (0.02)
+#define SEGMENT_MOVE_EPSILON (0.1)
 
 
 class Segment
@@ -53,8 +53,9 @@ public:
 
 	virtual void update(const Eigen::MatrixXf & dtheta, int & cid, const Eigen::Vector3f & v3_parent_end) = 0;
 	
-	virtual void getJ(const Eigen::Vector3f & p, Eigen::Matrix3f & R, Eigen::MatrixXf & J,int & cid) = 0;
-
+	//TODO (multiple end effector)
+	virtual void getJ(Eigen::Vector3f & p,Eigen::Matrix3f R, Eigen::MatrixXf & J,int cid) = 0;
+	virtual void rootGetJ(Eigen::MatrixXf & J)=0;
 
 
 
@@ -63,6 +64,8 @@ public:
 	bool rootUpdate(const Eigen::Vector3f & g);
 	//Eigen::MatrixXf rootGetJ();
 	//int getChildrenNum();
+
+	//TODO init num end effector
 	int initTotalDOF();
 
 	//TODO: tree structure needs vector<Vector3f> p

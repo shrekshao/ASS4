@@ -61,10 +61,11 @@ bool Segment::rootUpdate(const Eigen::Vector3f & g)
 	if(dp.norm() > SEGMENT_EPSILON)
 	{
 		Eigen::MatrixXf J(3,totalDOF);
-		Eigen::Matrix3f R(Eigen::Matrix3f::Identity());
+		//Eigen::Matrix3f R(Eigen::Matrix3f::Identity());
 
-		int cid = 0;
-		getJ(p,R,J,cid);
+		
+		//getJ(pp,Rotation,J,cid);
+		rootGetJ(J);
 		
 		//test
 		//cout<<J<<endl<<endl;
@@ -74,6 +75,11 @@ bool Segment::rootUpdate(const Eigen::Vector3f & g)
 		//dp = J dtheta
 		Eigen::VectorXf dtheta(totalDOF);
 		//?
+		float dplength = dp.norm();
+		if(dplength > SEGMENT_MOVE_EPSILON)
+		{
+			dp = dp / dplength * SEGMENT_MOVE_EPSILON;
+		}
 		//dp = dp.normalized() * SEGMENT_MOVE_EPSILON;
 
 		//12-12:the second dtheta is wrong
@@ -84,7 +90,7 @@ bool Segment::rootUpdate(const Eigen::Vector3f & g)
 
 
 
-		cid = 0;
+		int cid = 0;
 		update(dtheta, cid, v3_base);
 
 

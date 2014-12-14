@@ -31,7 +31,7 @@ float zoom = 1.5;
 
 
 float t = 0;
-float t_step = 0.01;
+float t_step = 0.005;
 Eigen::Vector3f goal(0,1.5,0);
 
 
@@ -154,9 +154,13 @@ void drawScene()
 
 void parameterEquation()
 {
-	goal.x() = 1 * cos(t);
+	//2c,1s,1s is a successful case
+	goal.x() = 2 * cos(t);
 	goal.y() = 1 * sin(t);
-	goal.z() = 0;
+	goal.z() = 1 * sin(t);
+	//goal.x() = 3.0 *cos(t);
+	//goal.y() = 3.0 * sin(t);
+	//goal.z() = 0;
 }
 
 //Called every 25 milliseconds
